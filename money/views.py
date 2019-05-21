@@ -38,8 +38,8 @@ class MainView(View):
 
         total = index_utils.calc_month_pay(money)
         index_utils.format_date(money)
-        # フォームのインスタンス化
-        form = SpendingForm()
+
+        form = SpendingForm() # フォームのインスタンス化。ここでは、ページ上に入力フォームを呼び出すだけ
         next_year, next_month = index_utils.get_next(year, month)   # 多分間違ってる
         prev_year, prev_month = index_utils.get_prev(year, month)
 
@@ -86,21 +86,13 @@ class MainView(View):
         # POSTが実行されるときにそのインスタンスが生成されて、
         # dataにPOST内容が格納されるってこと？
         """ 本当はform.is_valid()メソッドを用いて入力値のバリデーションを行いたい """
-        data = request.POST
-        exchange_date = data['exchange_date']
-        amount = data['amount']
-        detail = data['detail']
-        category = data['category']
 
-        # オブジェクトの作成と保存 Model.objects.create()
-        # これ、フォームで渡された値をMoneyオブジェクトの中身に紐づけているってこと？
-        Money.objects.create(
-                exchange_date = exchange_date,
-                detail = detail,
-                amount = int(amount),
-                category = category,
-                )
-        return redirect(to='/money/{}/{}'.format(year, month))  # moneyのページに転送
+        m_obj = Money()
+        data = SpendingForm(request.POST, instance=m_obj)
+        data.save()
+        return redirect(to='/money/{}/{}'.format(year, month))
+
+
     """ ここまでフォームに関する記述 """
 
 
