@@ -89,11 +89,29 @@ class MainView(View):
 
         m_obj = Money()
         data = SpendingForm(request.POST, instance=m_obj)
+
         data.save()
         return redirect(to='/money/{}/{}'.format(year, month))
 
 
     """ ここまでフォームに関する記述 """
+
+
+
+
+def edit(request,num):
+    m_obj = Money.objects.get(id=num)
+
+    if (request.method=='POST'):
+        data = SpendingForm(request.POST,instance=m_obj)
+        data.save()
+        return redirect(to='/money')
+    params={
+        'id': num,
+        'form': SpendingForm(instance=m_obj),
+    }
+    return render(request, 'money/edit.html', params)
+
 
 
 def draw_graph(year, month):

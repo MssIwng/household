@@ -50,6 +50,7 @@
                 <td>{{ m.detail }}</td>
                 <td>{{ m.category }}</td>
                 <td>{{ m.amount }}円</td>
+                <td><a href="{%  url 'money:edit' m.id %}">Edit</a></td>
               </tr>
               {% endfor %}
             </table>

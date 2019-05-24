@@ -6,4 +6,6 @@ app_name = 'money'
 urlpatterns = [
                 path('', views.MainView.as_view(), name='index'),
                 path('<int:year>/<int:month>', views.MainView.as_view(), name='index'),
+                path('edit/<int:num>', views.edit, name='edit'),
+                #path('edit/<int:num>', views.MainView.as_view(), name='edit'),
                 ]
