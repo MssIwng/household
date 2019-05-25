@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ja">
+<head>
+    <meta charset=""utf-8">
+    <title>DeletePage</title>
+    <link rel="stylesheet" type="text/css"
+        href="{% static 'money/style.css' %}"
+</head>
+<body>
+<h1>DeletePage</h1>
+<p>※以下のページを削除します</p>
+<table>
+    <tr><th>ID</th><td>{{ obj.id }}</td></tr>
+    <tr><th>日付</th><td>{{ obj.exchange_date }}</td></tr>
+    <tr><th>用途</th><td>{{ obj.detail }}</td></tr>
+    <tr><th>カテゴリー</th><td>{{ obj.category }}</td></tr>
+    <tr><th>金額</th><td>{{ obj.amount }}</td></tr>
+    <form action="{% url 'money:delete' id %}" method="post">
+    {% csrf_token %}
+    <tr><th></th><td><input type="submit" value="click"></td></tr>
+    </form>
+</table>
+</body>

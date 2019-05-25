@@ -113,6 +113,17 @@ def edit(request,num):
     return render(request, 'money/edit.html', params)
 
 
+def delete(request,num):
+    money = Money.objects.get(id=num)
+    if (request.method =='POST'):
+        money.delete()
+        return redirect(to='/money')
+    params = {
+        'id': num,
+        'obj': money,
+    }
+    return render(request, 'money/delete.html', params)
+
 
 def draw_graph(year, month):
     money = Money.objects.filter(exchange_date__year=year, exchange_date__month=month).order_by('exchange_date')

@@ -51,6 +51,7 @@
                 <td>{{ m.category }}</td>
                 <td>{{ m.amount }}円</td>
                 <td><a href="{%  url 'money:edit' m.id %}">Edit</a></td>
+                <td><a href="{%  url 'money:delete' m.id %}">Delete</a></td>
               </tr>
               {% endfor %}
             </table>
