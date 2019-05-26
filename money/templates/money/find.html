@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>FindPage</title>
+
+    <link rel="stylesheet" type="text/css"
+    href="{% static 'money/style.css' %}">
+</head>
+<body>
+    <h1>FindPage</h1>
+    <p>{{ message|safe }}</p>
+    <table>
+        <form action="{% url 'money:find' %}" method ="post">
+            {% csrf_token %}
+            {{ form }}
+            <tr><th></th><td><input type="submit" value="click"></td></tr>
+        </form>
+    </table>
+    <hr>
+    <table>
+        <tr>
+            <th>data</th>
+            <th></th>
+            <th></th>
+        </tr>
+        {% for item in data %}
+        <tr>
+            <td>{{ item }}</td>
+            <td><a href="{% url 'money:edit' item.id %}">Edit</a></td>
+            <td><a href="{% url 'money:delete' item.id %}">Delete</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

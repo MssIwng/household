@@ -14,3 +14,8 @@ class SpendingForm(forms.ModelForm):
     class Meta:
         model = Money
         fields = ['amount', 'exchange_date', 'detail', 'category']
+
+
+class FindForm(forms.Form):
+    find = forms.CharField(label='Find', required=False)
+

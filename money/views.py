@@ -12,7 +12,7 @@ from matplotlib import pyplot as plt
 from django.views import View
 # models/pyからMoneyオブジェクトをインポートしますよ、という宣言
 from .models import Money
-from .forms import SpendingForm
+from .forms import SpendingForm, FindForm
 # plt.rcParams['font.family'] = 'IPAPGothic' #日本語の文字化け防止
 from .utils import index_utils
 
@@ -123,6 +123,24 @@ def delete(request,num):
         'obj': money,
     }
     return render(request, 'money/delete.html', params)
+
+def find(request):
+    if (request.method == 'POST'):
+        msg = 'search result:'
+        form = FindForm(request.POST)
+        s_word = request.POST['find']
+        data = Money.objects.filter(detail__contains=s_word)
+    else:
+        msg = 'search words...'
+        form = FindForm()
+        data = Money.objects.all()
+    params = {
+        'message': msg,
+        'form': form,
+        'data': data,
+    }
+    return render(request, 'money/find.html', params)
+
 
 
 def draw_graph(year, month):
