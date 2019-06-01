@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>for_learn</title>
+    <link rel="stylesheet" type="text/css"
+        href="{% static 'money/style.css' %}">
+</head>
+<body>
+    <h1>for_learn</h1>
+    <p>{{ message|safe }}</p>
+
+    <p>-----------------</p>
+    <table>
+        <tr>
+            <th>data</th>
+        </tr>
+        {% for item in data %}
+        <tr>
+        <td>{{ item.id }}</td>
+        <td>{{ item.detail }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

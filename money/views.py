@@ -1,6 +1,7 @@
 import calendar
 from django.shortcuts import render, redirect
 from django.utils import timezone
+from django.db.models import Count, Sum, Avg, Min, Max
 import pytz
 from datetime import datetime
 import matplotlib
@@ -28,6 +29,28 @@ TODAY = str(timezone.now()).split('-')
 
 # クエリメソッド一覧  https://qiita.com/okoppe8/items/66a8747cf179a538355b
 
+def for_learn(request):
+    data = Money.objects.all()
+
+    re1 = Money.objects.all().aggregate(Count('amount'))
+    re2 = Money.objects.aggregate(Sum('amount'))
+    re3 = Money.objects.aggregate(Avg('amount'))
+    re4 = Money.objects.aggregate(Min('amount'))
+    re5 = Money.objects.aggregate(Max('amount'))
+
+    msg = 'count:' + str(re1['amount__count']) \
+          + '<br>Sum:' + str(re2['amount__sum']) \
+          + '<br>Avg:' + str(re3['amount__avg']) \
+          + '<br>Min:' + str(re4['amount__min']) \
+          + '<br>Max:' + str(re5['amount__max'])
+
+    params = {
+        'data': data,
+        'message': msg,
+    }
+    return render(request, 'money/for_learn.html', params)
+
+
 
 class MainView(View):
     def get(self, request, year=TODAY[0], month=TODAY[1]):
@@ -39,7 +62,7 @@ class MainView(View):
         total = index_utils.calc_month_pay(money)
         index_utils.format_date(money)
 
-        form = SpendingForm() # フォームのインスタンス化。ここでは、ページ上に入力フォームを呼び出すだけ
+        form = SpendingForm()  # フォームのインスタンス化。ここでは、ページ上に入力フォームを呼び出すだけ
         next_year, next_month = index_utils.get_next(year, month)   # 多分間違ってる
         prev_year, prev_month = index_utils.get_prev(year, month)
 
@@ -97,8 +120,6 @@ class MainView(View):
     """ ここまでフォームに関する記述 """
 
 
-
-
 def edit(request,num):
     m_obj = Money.objects.get(id=num)
 
@@ -129,7 +150,11 @@ def find(request):
         msg = 'search result:'
         form = FindForm(request.POST)
         s_word = request.POST['find']
-        data = Money.objects.filter(detail__contains=s_word)
+        s_list = s_word.split()
+        data = Money.objects.all()[int(s_list[0]):int(s_list[1])]
+        # ↑ フォームでクエリセットのデータの番地を入力させ、該当する範囲内のデータを表示させる
+
+        #data = Money.objects.filter(detail__contains=s_word)
     else:
         msg = 'search words...'
         form = FindForm()

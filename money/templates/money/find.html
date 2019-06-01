@@ -21,13 +21,19 @@
     <hr>
     <table>
         <tr>
-            <th>data</th>
-            <th></th>
-            <th></th>
+            <th>id</th>
+            <th>使用日</th>
+            <th>用途</th>
+            <th>金額</th>
+            <th>カテゴリー</th>
         </tr>
         {% for item in data %}
         <tr>
-            <td>{{ item }}</td>
+            <td>{{ item.id }}</td>
+            <td>{{ item.exchange_date }}</td>
+            <td>{{ item.detail }}</td>
+            <td>{{ item.amount }}</td>
+            <td>{{ item.category }}</td>
             <td><a href="{% url 'money:edit' item.id %}">Edit</a></td>
             <td><a href="{% url 'money:delete' item.id %}">Delete</a></td>
         </tr>
