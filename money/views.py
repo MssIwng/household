@@ -147,6 +147,28 @@ def delete(request,num):
 
 def find(request):
     if (request.method == 'POST'):
+        msg = request.POST['find']
+        form = FindForm(request.POST)
+        sql = 'select * from money_money'
+        # アプリ名_モデル名がテーブルの名前となる
+        # select 項目名 from テーブル名 (項目名が*だとすべての項目が対象)
+
+        if (msg != ''):
+            sql += ' where ' + msg
+        data = Money.objects.raw(sql)
+        msg = sql
+    else:
+        msg = 'search words...'
+        form = FindForm()
+        data = Money.objects.all()
+    params = {
+            'message': msg,
+            'form': form,
+            'data': data,
+        }
+    return render(request, 'money/find.html', params)
+
+    """
         msg = 'search result:'
         form = FindForm(request.POST)
         s_word = request.POST['find']
@@ -165,6 +187,7 @@ def find(request):
         'data': data,
     }
     return render(request, 'money/find.html', params)
+    """
 
 
 
