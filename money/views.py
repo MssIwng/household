@@ -13,7 +13,7 @@ from matplotlib import pyplot as plt
 from django.views import View
 # models/pyからMoneyオブジェクトをインポートしますよ、という宣言
 from .models import Money
-from .forms import SpendingForm, FindForm
+from .forms import SpendingForm, FindForm, CheckForm
 # plt.rcParams['font.family'] = 'IPAPGothic' #日本語の文字化け防止
 from .utils import index_utils
 
@@ -188,6 +188,21 @@ def find(request):
     }
     return render(request, 'money/find.html', params)
     """
+
+
+def check(request):
+    params = {
+        'message': 'check.validation.',
+        'form': CheckForm(),
+    }
+    if (request.method == 'POST'):
+        form = CheckForm(request.POST)
+        params['form'] = form
+        if (form.is_valid()):
+            params['message'] = 'OK!'
+        else:
+            params['message'] = 'no good.'
+    return render(request, 'money/check.html', params)
 
 
 

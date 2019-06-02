@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 """
 Djangoのモデルは、Modelクラスの継承クラスとして定義される
@@ -26,7 +27,10 @@ class Money(models.Model):
     # お金をやり取りした日付、収支の内訳、金額を定義
     exchange_date = models.DateTimeField('日付')
     detail = models.CharField('用途', max_length=200)
-    amount = models.IntegerField('金額', default=0)
+    amount = models.IntegerField('金額', default=0, validators=[
+        MinValueValidator(100),
+        MaxValueValidator(1000000)
+    ])  # modelformを使う場合、データのバリデータを設定するにはmodels.pyでvalidatorsをインポートして使用
     category = models.CharField('カテゴリー', max_length=10, choices=SELECT_CHOICES)
 
     def __str__(self):

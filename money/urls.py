@@ -10,5 +10,6 @@ urlpatterns = [
                 path('delete/<int:num>', views.delete, name='delete'),
                 path('find', views.find, name='find'),
                 path('for_learn',views.for_learn,name="for_learn"),
+                path('check', views.check, name="check"),
                 #path('edit/<int:num>', views.MainView.as_view(), name='edit'),
                 ]
