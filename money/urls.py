@@ -11,5 +11,7 @@ urlpatterns = [
                 path('find', views.find, name='find'),
                 path('for_learn',views.for_learn,name="for_learn"),
                 path('check', views.check, name="check"),
+                path('message/', views.message, name="message"),
+                path('message/<int:page>', views.message, name="message"),
                 #path('edit/<int:num>', views.MainView.as_view(), name='edit'),
                 ]

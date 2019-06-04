@@ -37,6 +37,17 @@ class Money(models.Model):
         return self.detail + '￥' + str(self.amount)
 
 
+class Message(models.Model):
+    money = models.ForeignKey(Money, on_delete=models.CASCADE)
+    content = models.CharField(max_length=300)
+    pub_date = models.DateTimeField(auto_now_add = True)
+
+    def __str__(self):
+        return '<Message: id ='+str(self.id) + ','+ '('+str(self.pub_date)+')>'
+
+    class Meta:
+        ordering = ('pub_date',)
+
 """
 return文で返された値は、管理者ページでMoneysのレコードにアクセスしたときに表示される
 """

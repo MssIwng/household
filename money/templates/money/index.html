@@ -52,8 +52,14 @@
                 <td>{{ m.amount }}円</td>
                 <td><a href="{%  url 'money:edit' m.id %}">Edit</a></td>
                 <td><a href="{%  url 'money:delete' m.id %}">Delete</a></td>
+              <td><ul>
+                  {% for ob in m.message_set.all %}
+                      <li> {{ ob.content }}</li>
+                      {% endfor %}
+              </ul></td>
               </tr>
               {% endfor %}
+
             </table>
             <div class='tot'>
               合計：{{ total }}円

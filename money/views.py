@@ -2,6 +2,7 @@ import calendar
 from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.db.models import Count, Sum, Avg, Min, Max
+from django.core.paginator import Paginator
 import pytz
 from datetime import datetime
 import matplotlib
@@ -12,8 +13,8 @@ from matplotlib import pyplot as plt
 
 from django.views import View
 # models/pyからMoneyオブジェクトをインポートしますよ、という宣言
-from .models import Money
-from .forms import SpendingForm, FindForm, CheckForm
+from .models import Money, Message
+from .forms import SpendingForm, FindForm, CheckForm, MessageForm
 # plt.rcParams['font.family'] = 'IPAPGothic' #日本語の文字化け防止
 from .utils import index_utils
 
@@ -203,6 +204,21 @@ def check(request):
         else:
             params['message'] = 'no good.'
     return render(request, 'money/check.html', params)
+
+def message(request, page=1):
+    if (request.method == 'POST'):
+        obj = Message()
+        form = MessageForm(request.POST, instance=obj)
+        form.save()
+    data = Message.objects.all().reverse()
+    paginator = Paginator(data,5)
+    params ={
+        'form': MessageForm(),
+        'data': paginator.get_page(page),
+    }
+    return render(request, 'money/message.html', params)
+
+
 
 
 

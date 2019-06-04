@@ -1,5 +1,5 @@
 from django import forms
-from .models import Money
+from .models import Money, Message
 
 
 class SpendingForm(forms.ModelForm):
@@ -19,13 +19,18 @@ class SpendingForm(forms.ModelForm):
 class FindForm(forms.Form):
     find = forms.CharField(label='Find', required=False)
 
+
 class CheckForm(forms.Form):
     str = forms.CharField(label='String')
-
     def clean(self):
         cleaned_data = super().clean()
         str = cleaned_data['str']
         if (str.lower().startswith('no')):
             raise forms.ValidationError(' You input "NO"! ')
 
+
+class MessageForm(forms.ModelForm):
+    class Meta:
+        model = Message
+        fields = ['content', 'money']
 
